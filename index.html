@@ -25,3 +25,56 @@
       background: white;
       margin: 15px auto;
       padding: 15px;
+      width: 80%;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>ClearVid</h1>
+  <p>Create videos. No paywalls. Ever.</p>
+
+  <h3>Describe your video idea</h3>
+
+  <textarea id="prompt" placeholder="Example: Create a kids story about honesty with a boy and a robot"></textarea>
+  <br>
+  <button onclick="generateScenes()">Generate Video Plan</button>
+
+  <div id="output"></div>
+
+  <script>
+    function generateScenes() {
+      const prompt = document.getElementById("prompt").value;
+      const output = document.getElementById("output");
+
+      if (!prompt.trim()) {
+        alert("Please enter a prompt");
+        return;
+      }
+
+      output.innerHTML = `
+        <h3>Video Plan</h3>
+
+        <div class="scene">
+          <strong>Scene 1</strong>
+          <p>Introduction based on: "${prompt}"</p>
+        </div>
+
+        <div class="scene">
+          <strong>Scene 2</strong>
+          <p>Main action or problem in the story</p>
+        </div>
+
+        <div class="scene">
+          <strong>Scene 3</strong>
+          <p>Resolution and moral message</p>
+        </div>
+      `;
+    }
+  </script>
+
+</body>
+</html>
