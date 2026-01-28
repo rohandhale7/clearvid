@@ -1,11 +1,71 @@
-<script>
-  function generateScenes() {
-    const prompt = document.getElementById("prompt").value.trim();
-    const output = document.getElementById("output");
-
-    if (!prompt) {
-      alert("Please enter a video idea.");
-      return;
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ClearVid</title>
+  <meta charset="UTF-8" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9fafb;
+      text-align: center;
+      padding: 40px;
     }
+    textarea {
+      width: 80%;
+      height: 100px;
+      padding: 12px;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 12px 24px;
+      font-size: 16px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .scene {
+      background: white;
+      margin: 15px auto;
+      padding: 15px;
+      width: 80%;
+      border-radius: 6px;
+      text-align: left;
+    }
+  </style>
+</head>
 
-    output.innerHTML = `
+<body>
+
+  <h1>ClearVid</h1>
+  <p>Create videos. No paywalls. Ever.</p>
+
+  <h3>Describe your video idea</h3>
+  <textarea id="prompt"></textarea><br>
+  <button id="generateBtn">Generate Video Plan</button>
+
+  <div id="output"></div>
+
+  <script>
+    document.getElementById("generateBtn").addEventListener("click", function () {
+      var prompt = document.getElementById("prompt").value;
+
+      if (!prompt.trim()) {
+        alert("Please enter a video idea.");
+        return;
+      }
+
+      var output = document.getElementById("output");
+
+      output.innerHTML =
+        "<h2>Video Plan</h2>" +
+        "<div class='scene'><strong>Scene 1:</strong> Introduction</div>" +
+        "<div class='scene'><strong>Scene 2:</strong> Problem</div>" +
+        "<div class='scene'><strong>Scene 3:</strong> Solution</div>" +
+        "<div class='scene'><strong>Scene 4:</strong> Moral</div>";
+    });
+  </script>
+
+</body>
+</html>
