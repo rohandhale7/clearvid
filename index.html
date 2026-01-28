@@ -49,22 +49,42 @@
 
   <script>
     document.getElementById("generateBtn").addEventListener("click", function () {
-      var prompt = document.getElementById("prompt").value;
+  var prompt = document.getElementById("prompt").value.toLowerCase();
+  var output = document.getElementById("output");
 
-      if (!prompt.trim()) {
-        alert("Please enter a video idea.");
-        return;
-      }
+  if (!prompt.trim()) {
+    alert("Please enter a video idea.");
+    return;
+  }
 
-      var output = document.getElementById("output");
+  var title = "Your Video Story";
+  var helper = "a friend";
+  var moral = "Doing good things makes us happy.";
 
-      output.innerHTML =
-        "<h2>Video Plan</h2>" +
-        "<div class='scene'><strong>Scene 1:</strong> Introduction</div>" +
-        "<div class='scene'><strong>Scene 2:</strong> Problem</div>" +
-        "<div class='scene'><strong>Scene 3:</strong> Solution</div>" +
-        "<div class='scene'><strong>Scene 4:</strong> Moral</div>";
-    });
+  if (prompt.indexOf("kid") !== -1 || prompt.indexOf("child") !== -1) {
+    title = "Kids Moral Story";
+  }
+
+  if (prompt.indexOf("robot") !== -1) {
+    helper = "a friendly robot";
+  } else if (prompt.indexOf("animal") !== -1) {
+    helper = "a helpful animal";
+  }
+
+  if (prompt.indexOf("honest") !== -1) {
+    moral = "Honesty always brings happiness.";
+  } else if (prompt.indexOf("kind") !== -1) {
+    moral = "Kindness makes the world better.";
+  }
+
+  output.innerHTML =
+    "<h2>" + title + "</h2>" +
+    "<div class='scene'><strong>Scene 1:</strong> A child starts their day.</div>" +
+    "<div class='scene'><strong>Scene 2:</strong> The child meets " + helper + ".</div>" +
+    "<div class='scene'><strong>Scene 3:</strong> A problem appears.</div>" +
+    "<div class='scene'><strong>Scene 4:</strong> The child does the right thing.</div>" +
+    "<div class='scene'><strong>Scene 5:</strong> <strong>" + moral + "</strong></div>";
+});
   </script>
 
 </body>
