@@ -1,157 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
   <title>ClearVid</title>
+  <meta charset="UTF-8">
 
   <style>
     body {
-      font-family: 'Inter', Arial, sans-serif;
-      background: linear-gradient(135deg, #f9fafb, #eef2ff);
-      margin: 0;
-      padding: 0;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: 60px auto;
-      background: white;
+      font-family: Arial;
+      background: #f3f4f6;
       padding: 40px;
-      border-radius: 14px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
       text-align: center;
     }
 
-    h1 {
-      margin-top: 0;
-      font-size: 36px;
-      color: #1f2937;
-    }
-
-    p.subtitle {
-      color: #6b7280;
-      margin-bottom: 30px;
+    .box {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
     }
 
     textarea {
       width: 100%;
-      height: 120px;
-      padding: 14px;
+      height: 100px;
+      padding: 12px;
       font-size: 16px;
-      border-radius: 10px;
-      border: 1px solid #d1d5db;
-      outline: none;
-      resize: vertical;
-    }
-
-    textarea:focus {
-      border-color: #6366f1;
     }
 
     button {
-      margin-top: 20px;
-      padding: 14px 28px;
+      margin-top: 15px;
+      padding: 12px 20px;
       font-size: 16px;
-      background: #6366f1;
+      background: #2563eb;
       color: white;
       border: none;
-      border-radius: 10px;
       cursor: pointer;
+      border-radius: 8px;
     }
 
-    button:hover {
-      background: #4f46e5;
+    canvas {
+      display: none;
     }
 
-    .scene {
-      background: #f9fafb;
+    a {
+      display: block;
       margin-top: 20px;
-      padding: 18px;
-      border-radius: 10px;
-      text-align: left;
-      border-left: 4px solid #6366f1;
-    }
-
-    footer {
-      margin-top: 40px;
-      font-size: 14px;
-      color: #9ca3af;
+      font-weight: bold;
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
 
-    <h1>ClearVid</h1>
-    <p class="subtitle"><strong>Create videos. No paywalls. Ever.</strong></p>
+<div class="box">
+  <h1>ClearVid</h1>
+  <p>Create videos. No paywalls. Ever.</p>
 
-    <h3>Describe your video idea</h3>
-    <textarea id="prompt" placeholder="Example: Kids moral story about honesty with a robot"></textarea>
+  <textarea id="prompt" placeholder="Kids moral story about honesty"></textarea>
+  <button onclick="generateVideo()">Generate Video</button>
 
-    <button id="generateBtn">Generate Video Plan</button>
+  <a id="downloadLink"></a>
+</div>
 
-    <div id="output"></div>
+<canvas id="canvas" width="720" height="1280"></canvas>
 
-    <footer>
-      ClearVid — Honest, free video creation.
-    </footer>
+<script>
+function generateVideo() {
+  const text = document.getElementById("prompt").value || "Be honest and kind.";
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
 
-  </div>
+  const stream = canvas.captureStream(30);
+  const recorder = new MediaRecorder(stream, { mimeType: "video/webm" });
+  let chunks = [];
 
-  <script>
-    document.getElementById("generateBtn").addEventListener("click", function () {
-      var prompt = document.getElementById("prompt").value.toLowerCase();
-      var output = document.getElementById("output");
+  recorder.ondataavailable = e => chunks.push(e.data);
+  recorder.onstop = () => {
+    const blob = new Blob(chunks, { type: "video/webm" });
+    const url = URL.createObjectURL(blob);
+    const link = document.getElementById("downloadLink");
+    link.href = url;
+    link.download = "clearvid-video.webm";
+    link.textContent = "⬇ Download Video";
+  };
 
-      if (!prompt.trim()) {
-        alert("Please enter a video idea.");
-        return;
-      }
+  recorder.start();
 
-      var title = "Your Video Story";
-      var character = "a child";
-      var helper = "a friend";
-      var moral = "Doing good things makes us happy.";
+  let frame = 0;
+  const totalFrames = 150;
 
-      if (prompt.indexOf("kid") !== -1 || prompt.indexOf("child") !== -1) {
-        title = "Kids Moral Story";
-        character = "a kind child";
-      }
+  const interval = setInterval(() => {
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      if (prompt.indexOf("robot") !== -1) {
-        helper = "a friendly robot";
-      } else if (prompt.indexOf("animal") !== -1) {
-        helper = "a helpful animal";
-      }
+    ctx.fillStyle = "#111827";
+    ctx.font = "48px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText("ClearVid Story", canvas.width / 2, 200);
 
-      if (prompt.indexOf("honest") !== -1) {
-        moral = "Honesty always brings happiness.";
-      } else if (prompt.indexOf("kind") !== -1) {
-        moral = "Kindness makes the world better.";
-      } else if (prompt.indexOf("help") !== -1) {
-        moral = "Helping others is the right thing to do.";
-      }
+    ctx.font = "36px Arial";
+    wrapText(ctx, text, canvas.width / 2, 400, 600, 48);
 
-      output.innerHTML =
-        "<h2>" + title + "</h2>" +
+    frame++;
+    if (frame > totalFrames) {
+      clearInterval(interval);
+      recorder.stop();
+    }
+  }, 33);
+}
 
-        "<div class='scene'><strong>Scene 1 – Introduction</strong><br>" +
-        "Once upon a time, there was " + character + ".</div>" +
+function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+  const words = text.split(" ");
+  let line = "";
+  let offsetY = 0;
 
-        "<div class='scene'><strong>Scene 2 – Meet the Helper</strong><br>" +
-        "The child met " + helper + " who became a good friend.</div>" +
-
-        "<div class='scene'><strong>Scene 3 – The Problem</strong><br>" +
-        "One day, a small problem appeared that caused confusion.</div>" +
-
-        "<div class='scene'><strong>Scene 4 – The Right Choice</strong><br>" +
-        "With courage and help, the child chose the right path.</div>" +
-
-        "<div class='scene'><strong>Scene 5 – Moral</strong><br><strong>" +
-        moral + "</strong></div>";
-    });
-  </script>
+  for (let n = 0; n < words.length; n++) {
+    const testLine = line + words[n] + " ";
+    const metrics = ctx.measureText(testLine);
+    if (metrics.width > maxWidth && n > 0) {
+      ctx.fillText(line, x, y + offsetY);
+      line = words[n] + " ";
+      offsetY += lineHeight;
+    } else {
+      line = testLine;
+    }
+  }
+  ctx.fillText(line, x, y + offsetY);
+}
+</script>
 
 </body>
 </html>
