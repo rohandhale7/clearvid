@@ -1,90 +1,156 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>ClearVid</title>
   <meta charset="UTF-8" />
+  <title>ClearVid</title>
+
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f9fafb;
-      text-align: center;
+      font-family: 'Inter', Arial, sans-serif;
+      background: linear-gradient(135deg, #f9fafb, #eef2ff);
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 60px auto;
+      background: white;
       padding: 40px;
+      border-radius: 14px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+      text-align: center;
     }
+
+    h1 {
+      margin-top: 0;
+      font-size: 36px;
+      color: #1f2937;
+    }
+
+    p.subtitle {
+      color: #6b7280;
+      margin-bottom: 30px;
+    }
+
     textarea {
-      width: 80%;
-      height: 100px;
-      padding: 12px;
+      width: 100%;
+      height: 120px;
+      padding: 14px;
       font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      outline: none;
+      resize: vertical;
     }
+
+    textarea:focus {
+      border-color: #6366f1;
+    }
+
     button {
-      margin-top: 15px;
-      padding: 12px 24px;
+      margin-top: 20px;
+      padding: 14px 28px;
       font-size: 16px;
-      background: #3b82f6;
+      background: #6366f1;
       color: white;
       border: none;
+      border-radius: 10px;
       cursor: pointer;
     }
+
+    button:hover {
+      background: #4f46e5;
+    }
+
     .scene {
-      background: white;
-      margin: 15px auto;
-      padding: 15px;
-      width: 80%;
-      border-radius: 6px;
+      background: #f9fafb;
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 10px;
       text-align: left;
+      border-left: 4px solid #6366f1;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #9ca3af;
     }
   </style>
 </head>
 
 <body>
+  <div class="container">
 
-  <h1>ClearVid</h1>
-  <p>Create videos. No paywalls. Ever.</p>
+    <h1>ClearVid</h1>
+    <p class="subtitle"><strong>Create videos. No paywalls. Ever.</strong></p>
 
-  <h3>Describe your video idea</h3>
-  <textarea id="prompt"></textarea><br>
-  <button id="generateBtn">Generate Video Plan</button>
+    <h3>Describe your video idea</h3>
+    <textarea id="prompt" placeholder="Example: Kids moral story about honesty with a robot"></textarea>
 
-  <div id="output"></div>
+    <button id="generateBtn">Generate Video Plan</button>
+
+    <div id="output"></div>
+
+    <footer>
+      ClearVid — Honest, free video creation.
+    </footer>
+
+  </div>
 
   <script>
     document.getElementById("generateBtn").addEventListener("click", function () {
-  var prompt = document.getElementById("prompt").value.toLowerCase();
-  var output = document.getElementById("output");
+      var prompt = document.getElementById("prompt").value.toLowerCase();
+      var output = document.getElementById("output");
 
-  if (!prompt.trim()) {
-    alert("Please enter a video idea.");
-    return;
-  }
+      if (!prompt.trim()) {
+        alert("Please enter a video idea.");
+        return;
+      }
 
-  var title = "Your Video Story";
-  var helper = "a friend";
-  var moral = "Doing good things makes us happy.";
+      var title = "Your Video Story";
+      var character = "a child";
+      var helper = "a friend";
+      var moral = "Doing good things makes us happy.";
 
-  if (prompt.indexOf("kid") !== -1 || prompt.indexOf("child") !== -1) {
-    title = "Kids Moral Story";
-  }
+      if (prompt.indexOf("kid") !== -1 || prompt.indexOf("child") !== -1) {
+        title = "Kids Moral Story";
+        character = "a kind child";
+      }
 
-  if (prompt.indexOf("robot") !== -1) {
-    helper = "a friendly robot";
-  } else if (prompt.indexOf("animal") !== -1) {
-    helper = "a helpful animal";
-  }
+      if (prompt.indexOf("robot") !== -1) {
+        helper = "a friendly robot";
+      } else if (prompt.indexOf("animal") !== -1) {
+        helper = "a helpful animal";
+      }
 
-  if (prompt.indexOf("honest") !== -1) {
-    moral = "Honesty always brings happiness.";
-  } else if (prompt.indexOf("kind") !== -1) {
-    moral = "Kindness makes the world better.";
-  }
+      if (prompt.indexOf("honest") !== -1) {
+        moral = "Honesty always brings happiness.";
+      } else if (prompt.indexOf("kind") !== -1) {
+        moral = "Kindness makes the world better.";
+      } else if (prompt.indexOf("help") !== -1) {
+        moral = "Helping others is the right thing to do.";
+      }
 
-  output.innerHTML =
-    "<h2>" + title + "</h2>" +
-    "<div class='scene'><strong>Scene 1:</strong> A child starts their day.</div>" +
-    "<div class='scene'><strong>Scene 2:</strong> The child meets " + helper + ".</div>" +
-    "<div class='scene'><strong>Scene 3:</strong> A problem appears.</div>" +
-    "<div class='scene'><strong>Scene 4:</strong> The child does the right thing.</div>" +
-    "<div class='scene'><strong>Scene 5:</strong> <strong>" + moral + "</strong></div>";
-});
+      output.innerHTML =
+        "<h2>" + title + "</h2>" +
+
+        "<div class='scene'><strong>Scene 1 – Introduction</strong><br>" +
+        "Once upon a time, there was " + character + ".</div>" +
+
+        "<div class='scene'><strong>Scene 2 – Meet the Helper</strong><br>" +
+        "The child met " + helper + " who became a good friend.</div>" +
+
+        "<div class='scene'><strong>Scene 3 – The Problem</strong><br>" +
+        "One day, a small problem appeared that caused confusion.</div>" +
+
+        "<div class='scene'><strong>Scene 4 – The Right Choice</strong><br>" +
+        "With courage and help, the child chose the right path.</div>" +
+
+        "<div class='scene'><strong>Scene 5 – Moral</strong><br><strong>" +
+        moral + "</strong></div>";
+    });
   </script>
 
 </body>
