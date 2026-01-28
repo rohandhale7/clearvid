@@ -1,12 +1,94 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>ClearVid TEST</title>
+  <title>ClearVid</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9fafb;
+      text-align: center;
+      padding: 40px;
+    }
+    textarea {
+      width: 80%;
+      height: 100px;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 15px;
+      padding: 12px 24px;
+      font-size: 16px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #2563eb;
+    }
+    .scene {
+      background: white;
+      margin: 20px auto;
+      padding: 15px;
+      width: 80%;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+  </style>
 </head>
-<body style="font-family: Arial; text-align: center; padding: 50px;">
 
-  <h1>🚨 CLEARVID UPDATED 🚨</h1>
-  <p>If you see this, the deployment is working.</p>
+<body>
+
+  <h1>ClearVid</h1>
+  <p><strong>Create videos. No paywalls. Ever.</strong></p>
+
+  <h3>Describe your video idea</h3>
+  <textarea id="prompt" placeholder="Example: Create a kids moral story about honesty with a boy and a robot"></textarea>
+  <br>
+  <button onclick="generateScenes()">Generate Video Plan</button>
+
+  <div id="output"></div>
+
+  <script>
+    function generateScenes() {
+      const prompt = document.getElementById("prompt").value.trim();
+      const output = document.getElementById("output");
+
+      if (!prompt) {
+        alert("Please enter a video idea.");
+        return;
+      }
+
+      output.innerHTML = `
+        <h2>Video Plan</h2>
+
+        <div class="scene">
+          <strong>Scene 1 – Introduction</strong>
+          <p>Introduce the story based on: <em>${prompt}</em></p>
+        </div>
+
+        <div class="scene">
+          <strong>Scene 2 – Problem</strong>
+          <p>The main challenge or conflict appears.</p>
+        </div>
+
+        <div class="scene">
+          <strong>Scene 3 – Resolution</strong>
+          <p>The problem is solved with a positive lesson.</p>
+        </div>
+
+        <div class="scene">
+          <strong>Scene 4 – Moral</strong>
+          <p>End with a clear moral message.</p>
+        </div>
+      `;
+    }
+  </script>
 
 </body>
 </html>
